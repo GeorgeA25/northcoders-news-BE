@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS articles, users, topics;
+DROP TABLE IF EXISTS comments, articles, users, topics;
 
 CREATE TABLE topics (
     slug VARCHAR(50) PRIMARY KEY,
@@ -21,5 +21,13 @@ CREATE TABLE articles (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     votes INT DEFAULT 0,
     article_img_url VARCHAR(1000)
+);
 
+CREATE TABLE comments (
+    comment_id SERIAL PRIMARY KEY,
+    article_id INT REFERENCES articles(article_id),
+    body TEXT NOT NULL,
+    votes INT DEFAULT 0,
+    author VARCHAR(50) REFERENCES users(username),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
