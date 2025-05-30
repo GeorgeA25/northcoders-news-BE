@@ -54,8 +54,7 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
     })
     .then(() => {
       const userInsertData = format(
-        `
-        INSERT INTO users (username, name, avatar_url) VALUES %L RETURNING *;`,
+        `INSERT INTO users (username, name, avatar_url) VALUES %L RETURNING *;`,
         userData.map(({ username, name, avatar_url }) => [
           username,
           name,
@@ -63,6 +62,32 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
         ])
       );
       return db.query(userInsertData);
+    })
+    .then(() => {
+      const formattedArticles = articleData.map(convertTimestampToDate);
+      const articlesInsertData = format(
+        `INSERT INTO articles(title, topic, author, body, created_at, votes, article_img_url) VALUES %L RETURNING *;`,
+        formattedArticles.map(
+          ({
+            title,
+            topic,
+            author,
+            body,
+            created_at,
+            votes,
+            article_img_url,
+          }) => [
+            title,
+            topic,
+            author,
+            body,
+            new Date(created_at),
+            votes,
+            article_img_url,
+          ]
+        )
+      );
+      return db.query(articlesInsertData);
     });
 };
 module.exports = seed;
