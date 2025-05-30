@@ -54,4 +54,21 @@ describe.skip("createLookupObj", () => {
     const outcome = createLookupObj(array, key, value);
     expect(outcome).toEqual({ A: 1 });
   });
+  test("createLookupObj function returns an object with correct key and value refereneced when passed an array with multple objects", () => {
+    const array = [
+      { title: "A", article_id: 1 },
+      { title: "B", article_id: 2 },
+    ];
+    const key = "title";
+    const value = "article_id";
+    const outcome = createLookupObj(array, key, value);
+    expect(outcome).toEqual({ A: 1, B: 2 });
+  });
+  test("createLookupObj function does not mutate the original input array", () => {
+    const array = [{ title: "A", article_id: 1 }];
+    const key = "title";
+    const value = "article_id";
+    const originalCopy = [{ title: "A", article_id: 1 }];
+    expect(array).toEqual(originalCopy);
+  });
 });
