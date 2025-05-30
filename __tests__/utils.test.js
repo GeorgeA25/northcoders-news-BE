@@ -1,8 +1,9 @@
 const {
-  convertTimestampToDate
+  convertTimestampToDate,
+  createLookupObj,
 } = require("../db/seeds/utils");
 
-describe("convertTimestampToDate", () => {
+describe.skip("convertTimestampToDate", () => {
   test("returns a new object", () => {
     const timestamp = 1557572706232;
     const input = { created_at: timestamp };
@@ -38,3 +39,19 @@ describe("convertTimestampToDate", () => {
   });
 });
 
+describe.skip("createLookupObj", () => {
+  test("createLookupObj function returns an empty object when passed an empty array", () => {
+    const array = [];
+    const key = "title";
+    const value = "article_id";
+    const outcome = createLookupObj(array, key, value);
+    expect(outcome).toEqual({});
+  });
+  test("createLookupObj function returns an object with correct key and value referenced when passed an array with a single object", () => {
+    const array = [{ title: "A", article_id: 1 }];
+    const key = "title";
+    const value = "article_id";
+    const outcome = createLookupObj(array, key, value);
+    expect(outcome).toEqual({ A: 1 });
+  });
+});

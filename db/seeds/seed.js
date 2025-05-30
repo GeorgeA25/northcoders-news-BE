@@ -1,4 +1,6 @@
 const db = require("../connection");
+const format = require("pg-format");
+const { convertTimestampToDate, createLookupObj } = require("./utils");
 
 const seed = ({ topicData, userData, articleData, commentData }) => {
   return db
@@ -37,8 +39,7 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
         votes INT DEFAULT 0,
         author VARCHAR(50) REFERENCES users(username),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
-);`);
+    );`);
     });
 };
 module.exports = seed;
