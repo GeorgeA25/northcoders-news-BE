@@ -40,6 +40,29 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
         author VARCHAR(50) REFERENCES users(username),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`);
+    })
+    .then(() => {
+      const topicInsertQuery = format(
+        `INSERT INTO topics (slug, description, img_url) VALUES %L RETURNING *;`,
+        topicData.map(({ slug, description, img_url }) => [
+          slug,
+          description,
+          img_url,
+        ])
+      );
+      return db.query(topicInsertQuery);
+    })
+    .then(() => {
+      const userInsertData = format(
+        `
+        INSERT INTO users (username, name, avatar_url) VALUES %L RETURNING *;`,
+        userData.map(({ username, name, avatar_url }) => [
+          username,
+          name,
+          avatar_url,
+        ])
+      );
+      return db.query(userInsertData);
     });
 };
 module.exports = seed;
