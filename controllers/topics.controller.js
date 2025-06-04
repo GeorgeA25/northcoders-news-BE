@@ -4,3 +4,5 @@ const getTopics = async (request, response) => {
   const topics = await selectTopics();
   response.status(200).send({ topics });
 };
+
+module.exports = { getTopics };
