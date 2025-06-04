@@ -33,3 +33,11 @@ describe.skip("GET /api/topics", () => {
     }
   });
 });
+
+describe("/api/articles", () => {
+  test("GET /api/articles responds with a status 200 and returns an object with key called articles and the value being an array of article objects in descending order and not include body property within any article object", async () => {
+    const {
+      body: { articles },
+    } = await request(app).get("/api/articles").expect(200);
+  });
+});
