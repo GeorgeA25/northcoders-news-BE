@@ -3,6 +3,7 @@ const app = express();
 const { getApiDocs } = require("./controllers/api.controller");
 const { getTopics } = require("./controllers/topics.controller");
 const { getArticles } = require("./controllers/articles.controller");
+const { getUsers } = require("./controllers/users.controller");
 const { handle404, handle400, handle500 } = require("./errorHandlers");
 
 app.get("/api", getApiDocs);
@@ -10,6 +11,8 @@ app.get("/api", getApiDocs);
 app.get("/api/topics", getTopics);
 
 app.get("/api/articles", getArticles);
+
+app.get("/api/users", getUsers);
 
 app.use(handle404);
 
