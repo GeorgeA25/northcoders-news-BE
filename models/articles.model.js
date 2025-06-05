@@ -1,4 +1,5 @@
 const db = require("../db/connection");
+const articles = require("../db/data/test-data/articles");
 
 const selectArticles = async () => {
   const { rows: articles } = await db.query(`
@@ -18,4 +19,16 @@ const selectArticles = async () => {
   return articles;
 };
 
-module.exports = { selectArticles };
+const selectArticlesById = async (id) => {
+  const { rows } = await db.query(
+    `SELECT * FROM articles WHERE article_id = $1`,
+    [id]
+  );
+  if (!rows.length) {
+    return Promise.reject({ status: 404, message: "Article not found" });
+  } else {
+    return rows[0];
+  }
+};
+
+module.exports = { selectArticles, selectArticlesById };
