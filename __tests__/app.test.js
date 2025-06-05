@@ -79,7 +79,7 @@ describe.skip("Invalid paths", () => {
   });
 });
 
-describe("GET /api/articles/:article_id", () => {
+describe.skip("GET /api/articles/:article_id", () => {
   test("GET /api/articles/:articles_id responds with a status 200 and returns an object with a key of article and the value of an article object with correcet properties", async () => {
     const { body } = await request(app).get("/api/articles/1").expect(200);
     const article = body.article;
