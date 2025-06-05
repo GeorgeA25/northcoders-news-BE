@@ -78,3 +78,26 @@ describe.skip("Invalid paths", () => {
     expect(body.message).toBe("Route not found");
   });
 });
+
+describe("GET /api/articles/:article_id", () => {
+  test("GET /api/articles/:articles_id responds with a status 200 and returns an object with a key of article and the value of an article object with correcet properties", async () => {
+    const { body } = await request(app).get("/api/articles/1").expect(200);
+    const article = body.article;
+    expect(typeof article.article_id).toBe("number");
+    expect(typeof article.title).toBe("string");
+    expect(typeof article.author).toBe("string");
+    expect(typeof article.body).toBe("string");
+    expect(typeof article.created_at).toBe("string");
+    expect(typeof article.votes).toBe("number");
+    expect(typeof article.topic).toBe("string");
+    expect(typeof article.article_img_url).toBe("string");
+  });
+  test("GET /api/articles/NAN responds with a 400 when the article_id is invalid and will return a message of 'Bad request'", async () => {
+    const { body } = await request(app).get("/api/articles/NAN").expect(400);
+    expect(body.message).toBe("Bad request");
+  });
+  test("GET api/articles/800 responds with a 404 when the article_id is valid but doesn't exisit in the database will return a message of 'Article not found'", async () => {
+    const { body } = await request(app).get("/api/articles/800").expect(404);
+    expect(body.message).toBe("Article not found");
+  });
+});
