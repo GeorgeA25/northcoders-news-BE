@@ -58,6 +58,20 @@ describe.skip("/api/articles", () => {
   });
 });
 
+describe.skip("GET /api/users", () => {
+  test("GET /api/users responds with status 200 and returns an object containing a 'users' key, where the value is an array of topic objects each having 'username', 'name and 'avatar_url' properties", async () => {
+    const {
+      body: { users },
+    } = await request(app).get("/api/users").expect(200);
+    expect(Array.isArray(users)).toBe(true);
+    for (const user of users) {
+      expect(typeof user.username).toBe("string");
+      expect(typeof user.name).toBe("string");
+      expect(typeof user.avatar_url).toBe("string");
+    }
+  });
+});
+
 describe.skip("Invalid paths", () => {
   test("GET / responds with a status 404 and returns an error message", async () => {
     const { body } = await request(app).get("/").expect(404);
