@@ -34,10 +34,26 @@ describe.skip("GET /api/topics", () => {
   });
 });
 
-describe("/api/articles", () => {
+describe.skip("/api/articles", () => {
   test("GET /api/articles responds with a status 200 and returns an object with key called articles and the value being an array of article objects in descending order and not include body property within any article object", async () => {
     const {
       body: { articles },
     } = await request(app).get("/api/articles").expect(200);
+    expect(Array.isArray(articles)).toBe(true);
+    for (let i = 0; i < articles.length - 1; i++) {
+      expect(articles[i].created_at >= articles[i + 1].created_at).toBe(true);
+    }
+    for (const article of articles) {
+      expect(typeof article.author).toBe("string");
+      expect(typeof article.title).toBe("string");
+      expect(typeof article.article_id).toBe("number");
+      expect(typeof article.topic).toBe("string");
+      expect(typeof article.created_at).toBe("string");
+      expect(typeof article.votes).toBe("number");
+      expect(typeof article.article_img_url).toBe("string");
+      expect(typeof article.comment_count).toBe("number");
+
+      expect(article).not.toHaveProperty("body");
+    }
   });
 });
