@@ -13,7 +13,7 @@ afterAll(() => {
   return db.end();
 });
 describe.skip("GET /api", () => {
-  test("200: Responds with an object detailing the documentation for each endpoint", async () => {
+  test("GET /api responds with status 200 and returns an object containing an 'endpoints' key with endpoint documentation", async () => {
     const {
       body: { endpoints },
     } = await request(app).get("/api").expect(200);
