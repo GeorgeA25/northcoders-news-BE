@@ -57,3 +57,10 @@ describe.skip("/api/articles", () => {
     }
   });
 });
+
+describe.skip("Invalid paths", () => {
+  test("GET / responds with a status 404 and returns an error message", async () => {
+    const { body } = await request(app).get("/").expect(404);
+    expect(body.message).toBe("Route not found");
+  });
+});
