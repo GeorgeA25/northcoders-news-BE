@@ -9,7 +9,7 @@ const handle400 = (error, request, response, next) => {
   }
 };
 
-const customerHandlerError = (error, request, response, next) => {
+const customHandlerError = (error, request, response, next) => {
   if (error.status && error.message) {
     return response.status(error.status).send({ message: error.message });
   } else {
@@ -21,4 +21,4 @@ const handle500 = (error, request, response, next) => {
   response.status(500).send({ message: "Internal server error" });
 };
 
-module.exports = { handle404, handle400, customerHandlerError, handle500 };
+module.exports = { handle404, handle400, customHandlerError, handle500 };
