@@ -19,10 +19,10 @@ const selectArticles = async () => {
   return articles;
 };
 
-const selectArticlesById = async (id) => {
+const selectArticlesById = async (article_id) => {
   const { rows } = await db.query(
     `SELECT * FROM articles WHERE article_id = $1`,
-    [id]
+    [article_id]
   );
   if (!rows.length) {
     return Promise.reject({ status: 404, message: "Article not found" });
