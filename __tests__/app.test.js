@@ -89,11 +89,46 @@ describe("GET /api/articles/:article_id", () => {
     const { body } = await request(app).get("/api/articles/NAN").expect(400);
     expect(body.message).toBe("Bad request");
   });
-  test("GET api/articles/800 responds with a 404 when the article_id is valid but doesn't exisit in the database will return a message of 'Article not found'", async () => {
+  test("GET /api/articles/800 responds with a 404 when the article_id is valid but doesn't exisit in the database will return a message of 'Article not found'", async () => {
     const { body } = await request(app).get("/api/articles/800").expect(404);
     expect(body.message).toBe("Article not found");
   });
 });
+
+describe.only("GET /api/articles/:article_id/comments", () => {
+  test("GET /api/articles/:article_id/comments responds with a status 200 and returns an object with a key of comments and the value to be an array of comments for the correct article_id", async () => {
+    const {
+      body: { comments },
+    } = await request(app).get("/api/articles/1/comments").expect(200);
+    expect(Array.isArray(comments)).toBe(true);
+    for (let i = 0; i < comments.length - 1; i++) {
+      expect(
+        new Date(comments[i].created_at) >= new Date(comments[i + 1].created_at)
+      ).toBe(true);
+    }
+    for (const comment of comments) {
+      expect(typeof comment.comment_id).toBe("number");
+      expect(typeof comment.votes).toBe("number");
+      expect(typeof comment.created_at).toBe("string");
+      expect(typeof comment.author).toBe("string");
+      expect(typeof comment.body).toBe("string");
+      expect(typeof comment.article_id).toBe("number");
+    }
+  });
+  test("GET /api/articles/NAN/comments responds with a status 400 when the article is invalid and returns a message 'Bad request'", async () => {
+    const { body } = await request(app)
+      .get("/api/articles/NAN/comments")
+      .expect(400);
+    expect(body.message).toBe("Bad request");
+  });
+  test("GET /api/articles/article_id/comments responds with a status 404 when article_id is valid but doesn't exist in the database will return a message 'Article not found'", async () => {
+    const { body } = await request(app)
+      .get("/api/articles/800/comments")
+      .expect(404);
+    expect(body.message).toBe("Article not found");
+  });
+});
+
 describe("Invalid paths", () => {
   test("GET /api/not-a-route responds with a status 404 and returns an error message", async () => {
     const { body } = await request(app).get("/api/not-a-route").expect(404);
