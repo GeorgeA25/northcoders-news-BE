@@ -6,6 +6,7 @@ const {
   getArticles,
   getArticlesById,
   getCommentsByArticleId,
+  postCommentsByArticleId,
 } = require("./controllers/articles.controller");
 const { getUsers } = require("./controllers/users.controller");
 const {
@@ -14,6 +15,8 @@ const {
   customHandlerError,
   handle500,
 } = require("./errorHandlers");
+
+app.use(express.json());
 
 app.get("/api", getApiDocs);
 
@@ -26,6 +29,8 @@ app.get("/api/users", getUsers);
 app.get("/api/articles/:article_id", getArticlesById);
 
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
+
+app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
 
 app.use(handle404);
 
