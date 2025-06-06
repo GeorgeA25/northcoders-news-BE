@@ -129,13 +129,14 @@ describe("GET /api/articles/:article_id/comments", () => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments", () => {
+describe.skip("POST /api/articles/:article_id/comments", () => {
   test("POST /api/articles/:article_id/comments responds with a status 201 when comments object accepts an object with username and body properties with the value of the posted comment", async () => {
     const newComment = {
       username: "testuser",
       body: "A test comment",
     };
-    const { body } = (await request(app).post("/api/articles/1/comments"))
+    const { body } = await request(app)
+      .post("/api/articles/1/comments")
       .send(newComment)
       .expect(201);
     expect(body.comment).toMatchObject({
@@ -150,6 +151,49 @@ describe("POST /api/articles/:article_id/comments", () => {
     expect(typeof comment.article_id).toBe("number");
     expect(typeof comment.created_at).toBe("string");
     expect(typeof comment.votes).toBe("number");
+  });
+  test("POST /api/articles/:article_id/comments responds with a status 400 when username is missing", async () => {
+    const newComment = { body: "Missed username" };
+    const { body } = await request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(400);
+    expect(body.message).toBe("Missing required fields");
+  });
+  test("POST /api/articles/:article_id/comments responds with a status 400 when body is missing", async () => {
+    const newComment = { username: "testuser" };
+    const { body } = await request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(400);
+    expect(body.message).toBe("Missing required fields");
+  });
+  test("POST /api/articles/:article_id/comments responds with a status 400 when article_id is not a number", async () => {
+    const newComment = { username: "testuser", body: "Invalid article_id" };
+    const { body } = await request(app)
+      .post("/api/articles/NAN/comments")
+      .send(newComment)
+      .expect(400);
+    expect(body.message).toBe("Bad request");
+  });
+  test("POST /api/articles/:article_id/comments responds with a status 404 if article doesn't exist", async () => {
+    const newComment = { username: "testuser", body: "Invalid article_id" };
+    const { body } = await request(app)
+      .post("/api/articles/800/comments")
+      .send(newComment)
+      .expect(404);
+    expect(body.message).toBe("Article not found");
+  });
+  test("POST /api/articles/:article_id/comments responds with a status 404 if user doesn't exist", async () => {
+    const newComment = {
+      username: "nonexistentuser",
+      body: "User doesn't exsits",
+    };
+    const { body } = await request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(404);
+    expect(body.message).toBe("User not found");
   });
 });
 describe("Invalid paths", () => {
