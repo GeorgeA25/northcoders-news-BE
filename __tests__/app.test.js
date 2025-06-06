@@ -129,6 +129,29 @@ describe("GET /api/articles/:article_id/comments", () => {
   });
 });
 
+describe("POST /api/articles/:article_id/comments", () => {
+  test("POST /api/articles/:article_id/comments responds with a status 201 when comments object accepts an object with username and body properties with the value of the posted comment", async () => {
+    const newComment = {
+      username: "testuser",
+      body: "A test comment",
+    };
+    const { body } = (await request(app).post("/api/articles/1/comments"))
+      .send(newComment)
+      .expect(201);
+    expect(body.comment).toMatchObject({
+      author: "testuser",
+      body: "A test comment",
+      article_id: 1,
+    });
+    const comment = body.comment;
+    expect(typeof comment.comment_id).toBe("number");
+    expect(typeof comment.author).toBe("string");
+    expect(typeof comment.body).toBe("string");
+    expect(typeof comment.article_id).toBe("number");
+    expect(typeof comment.created_at).toBe("string");
+    expect(typeof comment.votes).toBe("number");
+  });
+});
 describe("Invalid paths", () => {
   test("GET /api/not-a-route responds with a status 404 and returns an error message", async () => {
     const { body } = await request(app).get("/api/not-a-route").expect(404);
