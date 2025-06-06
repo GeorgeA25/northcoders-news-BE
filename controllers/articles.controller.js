@@ -1,8 +1,8 @@
-const { request } = require("../app");
 const {
   selectArticles,
   selectArticlesById,
 } = require("../models/articles.model");
+const { isValidId } = require("../utils/validators");
 const getArticles = async (request, response, next) => {
   try {
     const articles = await selectArticles();
@@ -15,9 +15,11 @@ const getArticles = async (request, response, next) => {
 const getArticlesById = async (request, response, next) => {
   try {
     const { article_id } = request.params;
-    console.log(article_id);
-    const articlesId = await selectArticlesById(article_id);
-    response.status(200).send({ articlesId });
+    if (!isValidId(article_id)) {
+      return response.status(400).send({ message: "Bad request" });
+    }
+    const article = await selectArticlesById(article_id);
+    response.status(200).send({ article });
   } catch (error) {
     next(error);
   }
