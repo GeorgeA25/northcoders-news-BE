@@ -95,7 +95,7 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
-describe.skip("GET /api/articles/:article_id/comments", () => {
+describe("GET /api/articles/:article_id/comments", () => {
   test("GET /api/articles/:article_id/comments responds with a status 200 and returns an object with a key of comments and the value to be an array of comments for the correct article_id", async () => {
     const {
       body: { comments },
