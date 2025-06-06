@@ -12,7 +12,7 @@ beforeEach(() => {
 afterAll(() => {
   return db.end();
 });
-describe.skip("GET /api", () => {
+describe("GET /api", () => {
   test("GET /api responds with status 200 and returns an object containing an 'endpoints' key with endpoint documentation", async () => {
     const {
       body: { endpoints },
@@ -21,7 +21,7 @@ describe.skip("GET /api", () => {
   });
 });
 
-describe.skip("GET /api/topics", () => {
+describe("GET /api/topics", () => {
   test("GET /api/topics responds with status 200 and returns an object containing a 'topics' key, where the value is an array of topic objects each having 'slug' and 'description' properties", async () => {
     const {
       body: { topics },
@@ -34,7 +34,7 @@ describe.skip("GET /api/topics", () => {
   });
 });
 
-describe.skip("/api/articles", () => {
+describe("/api/articles", () => {
   test("GET /api/articles responds with a status 200 and returns an object with key called articles and the value being an array of article objects in descending order and not include body property within any article object", async () => {
     const {
       body: { articles },
@@ -58,7 +58,7 @@ describe.skip("/api/articles", () => {
   });
 });
 
-describe.skip("GET /api/users", () => {
+describe("GET /api/users", () => {
   test("GET /api/users responds with status 200 and returns an object containing a 'users' key, where the value is an array of topic objects each having 'username', 'name and 'avatar_url' properties", async () => {
     const {
       body: { users },
@@ -72,15 +72,8 @@ describe.skip("GET /api/users", () => {
   });
 });
 
-describe.skip("Invalid paths", () => {
-  test("GET / responds with a status 404 and returns an error message", async () => {
-    const { body } = await request(app).get("/").expect(404);
-    expect(body.message).toBe("Route not found");
-  });
-});
-
-describe.skip("GET /api/articles/:article_id", () => {
-  test("GET /api/articles/:articles_id responds with a status 200 and returns an object with a key of article and the value of an article object with correcet properties", async () => {
+describe("GET /api/articles/:article_id", () => {
+  test("GET /api/articles/:article_id responds with a status 200 and returns an object with a key of article and the value of an article object with correcet properties", async () => {
     const { body } = await request(app).get("/api/articles/1").expect(200);
     const article = body.article;
     expect(typeof article.article_id).toBe("number");
@@ -99,5 +92,11 @@ describe.skip("GET /api/articles/:article_id", () => {
   test("GET api/articles/800 responds with a 404 when the article_id is valid but doesn't exisit in the database will return a message of 'Article not found'", async () => {
     const { body } = await request(app).get("/api/articles/800").expect(404);
     expect(body.message).toBe("Article not found");
+  });
+});
+describe("Invalid paths", () => {
+  test("GET /api/not-a-route responds with a status 404 and returns an error message", async () => {
+    const { body } = await request(app).get("/api/not-a-route").expect(404);
+    expect(body.message).toBe("Route not found");
   });
 });
