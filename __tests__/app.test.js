@@ -129,10 +129,10 @@ describe("GET /api/articles/:article_id/comments", () => {
   });
 });
 
-describe.skip("POST /api/articles/:article_id/comments", () => {
+describe("POST /api/articles/:article_id/comments", () => {
   test("POST /api/articles/:article_id/comments responds with a status 201 when comments object accepts an object with username and body properties with the value of the posted comment", async () => {
     const newComment = {
-      username: "testuser",
+      username: "butter_bridge",
       body: "A test comment",
     };
     const { body } = await request(app)
@@ -140,7 +140,7 @@ describe.skip("POST /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(201);
     expect(body.comment).toMatchObject({
-      author: "testuser",
+      author: "butter_bridge",
       body: "A test comment",
       article_id: 1,
     });
@@ -161,7 +161,7 @@ describe.skip("POST /api/articles/:article_id/comments", () => {
     expect(body.message).toBe("Missing required fields");
   });
   test("POST /api/articles/:article_id/comments responds with a status 400 when body is missing", async () => {
-    const newComment = { username: "testuser" };
+    const newComment = { username: "butter_bridge" };
     const { body } = await request(app)
       .post("/api/articles/1/comments")
       .send(newComment)
@@ -169,7 +169,10 @@ describe.skip("POST /api/articles/:article_id/comments", () => {
     expect(body.message).toBe("Missing required fields");
   });
   test("POST /api/articles/:article_id/comments responds with a status 400 when article_id is not a number", async () => {
-    const newComment = { username: "testuser", body: "Invalid article_id" };
+    const newComment = {
+      username: "butter_bridge",
+      body: "Invalid article_id",
+    };
     const { body } = await request(app)
       .post("/api/articles/NAN/comments")
       .send(newComment)
@@ -177,7 +180,10 @@ describe.skip("POST /api/articles/:article_id/comments", () => {
     expect(body.message).toBe("Bad request");
   });
   test("POST /api/articles/:article_id/comments responds with a status 404 if article doesn't exist", async () => {
-    const newComment = { username: "testuser", body: "Invalid article_id" };
+    const newComment = {
+      username: "butter_bridge",
+      body: "Invalid article_id",
+    };
     const { body } = await request(app)
       .post("/api/articles/800/comments")
       .send(newComment)
