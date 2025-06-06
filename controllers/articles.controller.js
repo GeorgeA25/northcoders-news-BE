@@ -29,7 +29,7 @@ const getArticlesById = async (request, response, next) => {
 const getCommentsByArticleId = async (request, response, next) => {
   try {
     const { article_id } = request.params;
-    if (!article_id) {
+    if (!isValidId(article_id)) {
       return response.status(400).send({ message: "Bad request" });
     }
     const comments = await selectCommentsByArticleId(article_id);
