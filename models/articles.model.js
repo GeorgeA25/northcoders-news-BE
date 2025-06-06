@@ -46,8 +46,42 @@ const selectCommentsByArticleId = async (id) => {
   return comments;
 };
 
+const insertCommentByArticleId = async (id, username, body) => {
+  const { rows: articles } = await db.query(
+    `SELECT * FROM articles WHERE article_id = $1;`,
+    [id]
+  );
+
+  if (articles.length === 0) {
+    return Promise.reject({
+      status: 404,
+      message: "Article not found",
+    });
+  }
+
+  const { rows: users } = await db.query(
+    `SELECT * FROM users WHERE username = $1;`,
+    [username]
+  );
+
+  if (users.length === 0) {
+    return Promise.reject({
+      status: 404,
+      message: "User not found",
+    });
+  }
+
+  const insertQuery = `INSERT INTO comments (author, article_id, body) VALUES ($1, $2, $3) RETURNING *;`;
+  const {
+    rows: [comment],
+  } = await db.query(insertQuery, [username, id, body]);
+
+  return comment;
+};
+
 module.exports = {
   selectArticles,
   selectArticlesById,
   selectCommentsByArticleId,
+  insertCommentByArticleId,
 };
