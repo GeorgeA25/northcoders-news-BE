@@ -66,5 +66,22 @@
         }
       ]
     }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "serves a new comment to the specified article by article_id",
+    "exampleRequest": {
+      "username": "tickle122",
+      "body": "A test comment"
+    },
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 301,
+        "article_id": 1,
+        "body": "A test comment",
+        "votes": 0,
+        "author": "tickle122",
+        "created_at": "2025-06-06T17:45:27.152Z"
+      }
+    }
   }
 }
