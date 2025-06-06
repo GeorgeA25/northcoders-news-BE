@@ -30,12 +30,20 @@ const selectArticlesById = async (id) => {
   }
 };
 
-const selectCommentsByArticleId = async (article_id) => {
+const selectCommentsByArticleId = async (id) => {
   const { rows } = await db.query(
-    `SELECT comments.comment_id, comments.votes, comments.created_at, comments.author, comments.body, comments.article_id FROM comments LEFT JOIN articles On comments.article_id = articles.article_id WHERE comments.article_id = $1 ORDER BY comments.created_at DESC;`,
-    [article_id]
+    `SELECT * FROM articles WHERE article_id = $1`,
+    [id]
   );
-  return rows;
+  if (rows.length === 0) {
+    return Promise.reject({ status: 404, message: "Article not found" });
+  }
+
+  const { rows: comments } = await db.query(
+    `SELECT comments.comment_id, comments.votes, comments.created_at, comments.author, comments.body, comments.article_id FROM comments WHERE comments.article_id = $1 ORDER BY comments.created_at DESC;`,
+    [id]
+  );
+  return comments;
 };
 
 module.exports = {
