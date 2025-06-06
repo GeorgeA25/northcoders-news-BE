@@ -1,6 +1,7 @@
 const {
   selectArticles,
   selectArticlesById,
+  selectCommentsByArticleId,
 } = require("../models/articles.model");
 const { isValidId } = require("../utils/validators");
 const getArticles = async (request, response, next) => {
@@ -25,4 +26,17 @@ const getArticlesById = async (request, response, next) => {
   }
 };
 
-module.exports = { getArticles, getArticlesById };
+const getCommentsByArticleId = async (request, response, next) => {
+  try {
+    const { article_id } = request.params;
+    if (!article_id) {
+      return response.status(400).send({ message: "Bad request" });
+    }
+    const comments = await selectCommentsByArticleId(article_id);
+    response.status(200).send({ comments });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getArticles, getArticlesById, getCommentsByArticleId };
