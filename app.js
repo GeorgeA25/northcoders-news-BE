@@ -7,6 +7,7 @@ const {
   getArticlesById,
   getCommentsByArticleId,
   postCommentsByArticleId,
+  updateArticle,
 } = require("./controllers/articles.controller");
 const { getUsers } = require("./controllers/users.controller");
 const {
@@ -32,6 +33,8 @@ app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
 
+app.patch("/api/articles/:article_id", updateArticle);
+
 app.use(handle404);
 
 app.use(handle400);
@@ -39,4 +42,5 @@ app.use(handle400);
 app.use(customHandlerError);
 
 app.use(handle500);
+
 module.exports = app;
