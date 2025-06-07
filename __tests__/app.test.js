@@ -263,7 +263,7 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe.skip("DELETE /api/comments/:comment_id", () => {
+describe("DELETE /api/comments/:comment_id", () => {
   test("DELETE /api/comments/:comment_id responds with a status 204 and deletes a comment from the comments table", async () => {
     await request(app).delete("/api/comments/1").expect(204);
 
