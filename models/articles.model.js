@@ -79,9 +79,28 @@ const insertCommentByArticleId = async (id, username, body) => {
   return comment;
 };
 
+const updateArticleByArticleId = async (id, inc_votes) => {
+  const { rows: articles } = await db.query(
+    `SELECT * FROM articles WHERE article_id = $1;`,
+    [id]
+  );
+  if (!articles.length) {
+    return Promise.reject({ status: 404, message: "Article not found" });
+  }
+
+  const {
+    rows: [updatedArticle],
+  } = await db.query(
+    `UPDATE articles SET votes = votes + $2 WHERE article_id = $1 RETURNING *;`,
+    [id, inc_votes]
+  );
+  return updatedArticle;
+};
+
 module.exports = {
   selectArticles,
   selectArticlesById,
   selectCommentsByArticleId,
   insertCommentByArticleId,
+  updateArticleByArticleId,
 };
