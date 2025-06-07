@@ -3,8 +3,9 @@ const {
   selectArticlesById,
   selectCommentsByArticleId,
   insertCommentByArticleId,
+  updateArticleByArticleId,
 } = require("../models/articles.model");
-const { isValidId } = require("../utils/validators");
+const { isValidId, isValidIncVotes } = require("../utils/validators");
 const getArticles = async (request, response, next) => {
   try {
     const articles = await selectArticles();
@@ -61,9 +62,30 @@ const postCommentsByArticleId = async (request, response, next) => {
   }
 };
 
+const updateArticle = async (request, response, next) => {
+  try {
+    const { article_id } = request.params;
+    const { inc_votes } = request.body;
+    if (!isValidId(article_id)) {
+      return response.status(400).send({ message: "Bad request" });
+    }
+    if (!isValidIncVotes(inc_votes)) {
+      return response.status(400).send({ message: "Bad request" });
+    }
+    const updatedArticle = await updateArticleByArticleId(
+      Number(article_id),
+      inc_votes
+    );
+    response.status(200).send({ article: updatedArticle });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getArticles,
   getArticlesById,
   getCommentsByArticleId,
   postCommentsByArticleId,
+  updateArticle,
 };
