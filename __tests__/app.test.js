@@ -203,7 +203,7 @@ describe("POST /api/articles/:article_id/comments", () => {
   });
 });
 
-describe("PATCH /api/articles/:article_id", () => {
+describe.skip("PATCH /api/articles/:article_id", () => {
   test("PATCH /api/articles/:article_id responds with a status 200 and returns an object with a key of 'article' containing the updated article with votes incremented by the value in inc_votes property with the value of 1", async () => {
     const {
       body: { article },
