@@ -202,6 +202,67 @@ describe("POST /api/articles/:article_id/comments", () => {
     expect(body.message).toBe("User not found");
   });
 });
+
+describe("PATCH /api/articles/:article_id", () => {
+  test("PATCH /api/articles/:article_id responds with a status 200 and returns an object with a key of 'article' containing the updated article with votes incremented by the value in inc_votes property with the value of 1", async () => {
+    const {
+      body: { article },
+    } = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: 1 })
+      .expect(200);
+    expect(article.article_id).toBe(1);
+    expect(typeof article.article_id).toBe("number");
+    expect(article.votes).toBeGreaterThanOrEqual(1);
+    expect(typeof article.votes).toBe("number");
+    expect(typeof article.title).toBe("string");
+    expect(typeof article.author).toBe("string");
+    expect(typeof article.body).toBe("string");
+    expect(typeof article.created_at).toBe("string");
+    expect(typeof article.topic).toBe("string");
+    expect(typeof article.article_img_url).toBe("string");
+  });
+  test("PATCH /api/articles/:article_id responds with a status 200 and returns an object with a key of 'article' containing the updated article with votes decremented by the value in inc_votes property with the value of -100", async () => {
+    const {
+      body: { article },
+    } = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: -100 })
+      .expect(200);
+    expect(article.article_id).toBe(1);
+    expect(article.votes).toBeLessThanOrEqual(0);
+    expect(typeof article.votes).toBe("number");
+  });
+  test("PATCH /api/articles/:article_id responds with a 400 when passed an article_id that is NAN", async () => {
+    const { body } = await request(app)
+      .patch("/api/articles/NAN")
+      .send({ inc_votes: 1 })
+      .expect(400);
+    expect(body.message).toBe("Bad request");
+  });
+  test("PATCH /api/articles/:article_id responds with a 400 when inc_votes is missing from the request body", async () => {
+    const { body } = await request(app)
+      .patch("/api/articles/1")
+      .send({})
+      .expect(400);
+    expect(body.message).toBe("Bad request");
+  });
+  test("PATCH /api/articles/:article_id responds with a 400 when inc_votes property is NAN", async () => {
+    const { body } = await request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: "NAN" })
+      .expect(400);
+    expect(body.message).toBe("Bad request");
+  });
+  test("PATCH /api/articles/:article_id responds with a 404 when article_id is valid but is not in the articles table", async () => {
+    const { body } = await request(app)
+      .patch("/api/articles/800")
+      .send({ inc_votes: 1 })
+      .expect(404);
+    expect(body.message).toBe("Article not found");
+  });
+});
+
 describe("Invalid paths", () => {
   test("GET /api/not-a-route responds with a status 404 and returns an error message", async () => {
     const { body } = await request(app).get("/api/not-a-route").expect(404);
