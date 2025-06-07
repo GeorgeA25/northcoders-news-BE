@@ -1,4 +1,4 @@
-const { isValidId } = require("../utils/validators");
+const { isValidId, isValidIncVotes } = require("../utils/validators");
 
 describe("isValidId", () => {
   test("isValidId function returns true for a valid postitive interger string", () => {
@@ -24,6 +24,39 @@ describe("isValidId", () => {
   test("isValidId function returns false when passed 0", () => {
     const input = "0";
     const outcome = isValidId(input);
+    expect(outcome).toBe(false);
+  });
+});
+
+describe("isValidIncVotes", () => {
+  test("isValidIncVotes function returns true for a postitive interger of 1", () => {
+    const input = 1;
+    const outcome = isValidIncVotes(input);
+    expect(outcome).toBe(true);
+  });
+  test("isValidIncVotes function returns true for a negative number of -100", () => {
+    const input = -100;
+    const outcome = isValidIncVotes(input);
+    expect(outcome).toBe(true);
+  });
+  test("isValidIncVotes function returns false when passed 100", () => {
+    const input = 100;
+    const outcome = isValidIncVotes(input);
+    expect(outcome).toBe(false);
+  });
+  test("isValidIncVotes function returns false when passed 0", () => {
+    const input = 0;
+    const outcome = isValidIncVotes(input);
+    expect(outcome).toBe(false);
+  });
+  test("isValidIncVotes function returns false when passed a string of '1'", () => {
+    const input = "1";
+    const outcome = isValidIncVotes(input);
+    expect(outcome).toBe(false);
+  });
+  test("isValidIncVotes function returns false when passed a string of '-100'", () => {
+    const input = "-100";
+    const outcome = isValidIncVotes(input);
     expect(outcome).toBe(false);
   });
 });

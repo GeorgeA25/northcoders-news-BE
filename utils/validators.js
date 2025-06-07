@@ -3,4 +3,8 @@ function isValidId(id) {
   return Number.isInteger(number) && number > 0;
 }
 
-module.exports = { isValidId };
+function isValidIncVotes(value) {
+  return typeof value === "number" && (value === 1 || value == -100);
+}
+
+module.exports = { isValidId, isValidIncVotes };
