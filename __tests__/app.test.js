@@ -85,8 +85,8 @@ describe("GET /api/articles/:article_id", () => {
     expect(typeof article.topic).toBe("string");
     expect(typeof article.article_img_url).toBe("string");
   });
-  test("GET /api/articles/NAN responds with a 400 when the article_id is invalid and will return a message of 'Bad request'", async () => {
-    const { body } = await request(app).get("/api/articles/NAN").expect(400);
+  test("GET /api/articles/:article_id responds with a 400 when the article_id is not a number and will return 'Bad request'", async () => {
+    const { body } = await request(app).get("/api/articles/NaN").expect(400);
     expect(body.message).toBe("Bad request");
   });
   test("GET /api/articles/800 responds with a 404 when the article_id is valid but doesn't exisit in the database will return a message of 'Article not found'", async () => {
@@ -115,7 +115,7 @@ describe("GET /api/articles/:article_id/comments", () => {
       expect(typeof comment.article_id).toBe("number");
     }
   });
-  test("GET /api/articles/NAN/comments responds with a status 400 when the article is invalid and returns a message 'Bad request'", async () => {
+  test("GET /api/articles/article_id/comments responds with a status 400 when the article is not a number and return 'Bad request'", async () => {
     const { body } = await request(app)
       .get("/api/articles/NAN/comments")
       .expect(400);
@@ -168,13 +168,13 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(400);
     expect(body.message).toBe("Missing required fields");
   });
-  test("POST /api/articles/:article_id/comments responds with a status 400 when article_id is not a number", async () => {
+  test("POST /api/articles/:article_id/comments responds with a status 400 when article_id is not a number and return 'Bad request'", async () => {
     const newComment = {
       username: "butter_bridge",
       body: "Invalid article_id",
     };
     const { body } = await request(app)
-      .post("/api/articles/NAN/comments")
+      .post("/api/articles/NaN/comments")
       .send(newComment)
       .expect(400);
     expect(body.message).toBe("Bad request");
@@ -233,9 +233,9 @@ describe("PATCH /api/articles/:article_id", () => {
     expect(article.votes).toBeLessThanOrEqual(0);
     expect(typeof article.votes).toBe("number");
   });
-  test("PATCH /api/articles/:article_id responds with a 400 when passed an article_id that is NAN", async () => {
+  test("PATCH /api/articles/:article_id responds with a 400 when passed an article_id that is Not a number and return 'Bad request'", async () => {
     const { body } = await request(app)
-      .patch("/api/articles/NAN")
+      .patch("/api/articles/NaN")
       .send({ inc_votes: 1 })
       .expect(400);
     expect(body.message).toBe("Bad request");
@@ -250,7 +250,7 @@ describe("PATCH /api/articles/:article_id", () => {
   test("PATCH /api/articles/:article_id responds with a 400 when inc_votes property is NAN", async () => {
     const { body } = await request(app)
       .patch("/api/articles/1")
-      .send({ inc_votes: "NAN" })
+      .send({ inc_votes: NaN })
       .expect(400);
     expect(body.message).toBe("Bad request");
   });
@@ -260,6 +260,23 @@ describe("PATCH /api/articles/:article_id", () => {
       .send({ inc_votes: 1 })
       .expect(404);
     expect(body.message).toBe("Article not found");
+  });
+});
+
+describe.skip("DELETE /api/comments/:comment_id", () => {
+  test("DELETE /api/comments/:comment_id responds with a status 204 and deletes a comment from the comments table", async () => {
+    await request(app).delete("/api/comments/1").expect(204);
+
+    const { body } = await request(app).delete("/api/comments/1").expect(404);
+    expect(body.message).toBe("Comment not found");
+  });
+  test("DELETE /api/comments/:comment_id responds with a status 400 and message of 'Bad request' when commen_id is not a number and return 'Bad request'", async () => {
+    const { body } = await request(app).delete("/api/comments/NaN").expect(400);
+    expect(body.message).toBe("Bad request");
+  });
+  test("DELETE /api/comments/:comment_id responds with a status 404 and message of 'Comment not found' when comment_id doesn't exist", async () => {
+    const { body } = await request(app).delete("/api/comments/800").expect(404);
+    expect(body.message).toBe("Comment not found");
   });
 });
 
