@@ -10,6 +10,7 @@ const {
   updateArticle,
 } = require("./controllers/articles.controller");
 const { getUsers } = require("./controllers/users.controller");
+const { deleteComment } = require("./controllers/comments.controller");
 const {
   handle404,
   handle400,
@@ -34,6 +35,8 @@ app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
 
 app.patch("/api/articles/:article_id", updateArticle);
+
+app.delete("/api/comments/:comment_id", deleteComment);
 
 app.use(handle404);
 
