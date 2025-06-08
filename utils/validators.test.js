@@ -1,7 +1,7 @@
 const {
   isValidId,
   isValidIncVotes,
-  convertCommentCount,
+  convertCommentsCount,
 } = require("../utils/validators");
 
 describe("convertCommentCount", () => {
@@ -18,7 +18,7 @@ describe("convertCommentCount", () => {
         comment_count: 1,
       },
     ];
-    const outcome = convertCommentCount(input);
+    const outcome = convertCommentsCount(input);
     expect(outcome).toEqual(expected);
   });
   test("convertCommentCount function doesn't mutate the original array of objects", () => {
@@ -29,7 +29,7 @@ describe("convertCommentCount", () => {
       },
     ];
     const inputCopy = JSON.parse(JSON.stringify(input));
-    convertCommentCount(input);
+    convertCommentsCount(input);
     expect(input).toEqual(inputCopy);
   });
 });

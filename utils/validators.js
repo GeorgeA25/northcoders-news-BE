@@ -1,4 +1,4 @@
-function convertCommentCount(articles) {
+function convertCommentsCount(articles) {
   return articles.map((article) => ({
     ...article,
     comment_count: Number(article.comment_count),
@@ -14,4 +14,4 @@ function isValidIncVotes(value) {
   return typeof value === "number" && (value === 1 || value == -100);
 }
 
-module.exports = { convertCommentCount, isValidId, isValidIncVotes };
+module.exports = { convertCommentsCount, isValidId, isValidIncVotes };
