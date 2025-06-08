@@ -5,11 +5,16 @@ const {
   insertCommentByArticleId,
   updateArticleByArticleId,
 } = require("../models/articles.model");
-const { isValidId, isValidIncVotes } = require("../utils/validators");
+const {
+  isValidId,
+  isValidIncVotes,
+  convertCommentsCount,
+} = require("../utils/validators");
 const getArticles = async (request, response, next) => {
   try {
     const articles = await selectArticles();
-    response.status(200).send({ articles });
+    const formattedArticles = convertCommentsCount(articles);
+    response.status(200).send({ articles: formattedArticles });
   } catch (error) {
     next(error);
   }
