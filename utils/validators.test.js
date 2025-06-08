@@ -1,5 +1,38 @@
-const { isValidId, isValidIncVotes } = require("../utils/validators");
+const {
+  isValidId,
+  isValidIncVotes,
+  convertCommentCount,
+} = require("../utils/validators");
 
+describe("convertCommentCount", () => {
+  test("convertCommentCount function converts comment_count from being strings to being numbers", () => {
+    const input = [
+      {
+        article_id: 1,
+        comment_count: "1",
+      },
+    ];
+    const expected = [
+      {
+        article_id: 1,
+        comment_count: 1,
+      },
+    ];
+    const outcome = convertCommentCount(input);
+    expect(outcome).toEqual(expected);
+  });
+  test("convertCommentCount function doesn't mutate the original array of objects", () => {
+    const input = [
+      {
+        article_id: 1,
+        comment_count: "1",
+      },
+    ];
+    const inputCopy = JSON.parse(JSON.stringify(input));
+    convertCommentCount(input);
+    expect(input).toEqual(inputCopy);
+  });
+});
 describe("isValidId", () => {
   test("isValidId function returns true for a valid postitive interger string", () => {
     const input = "1";
