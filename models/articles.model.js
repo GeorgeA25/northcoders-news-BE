@@ -28,10 +28,11 @@ const selectArticlesById = async (id) => {
     `SELECT * FROM articles WHERE article_id = $1`,
     [id]
   );
-  if (!rows.length) {
+  const user = rows[0];
+  if (!user) {
     return Promise.reject({ status: 404, message: "Article not found" });
   } else {
-    return rows[0];
+    return user;
   }
 };
 
@@ -40,7 +41,7 @@ const selectCommentsByArticleId = async (id) => {
     `SELECT * FROM articles WHERE article_id = $1`,
     [id]
   );
-  if (rows.length === 0) {
+  if (!rows.length) {
     return Promise.reject({ status: 404, message: "Article not found" });
   }
 
@@ -57,7 +58,7 @@ const insertCommentByArticleId = async (id, username, body) => {
     [id]
   );
 
-  if (articles.length === 0) {
+  if (!articles.length) {
     return Promise.reject({
       status: 404,
       message: "Article not found",
@@ -69,7 +70,7 @@ const insertCommentByArticleId = async (id, username, body) => {
     [username]
   );
 
-  if (users.length === 0) {
+  if (!users.length) {
     return Promise.reject({
       status: 404,
       message: "User not found",
