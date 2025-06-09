@@ -32,7 +32,6 @@ const selectArticlesById = async (id) => {
   if (!user) {
     return Promise.reject({ status: 404, message: "Article not found" });
   } else {
-    console.log(user);
     return user;
   }
 };
