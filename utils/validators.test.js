@@ -4,6 +4,7 @@ const {
   convertCommentsCount,
   isValidSortBy,
   isValidOrder,
+  isValidTopics,
 } = require("../utils/validators");
 
 describe("convertCommentCount", () => {
@@ -122,7 +123,7 @@ describe("isValidSortBy", () => {
     const outcome = isValidSortBy(input);
     expect(outcome).toBe(false);
   });
-  test("isValidSortBy function returns false when passed underfined", () => {
+  test("isValidSortBy function returns false when passed undefined", () => {
     const input = undefined;
     const outcome = isValidSortBy(input);
     expect(outcome).toBe(false);
@@ -180,7 +181,7 @@ describe("isValidOrder", () => {
     const outcome = isValidOrder(input);
     expect(outcome).toBe(false);
   });
-  test("isValidOrder function returns false when passed underfined", () => {
+  test("isValidOrder function returns false when passed undefined", () => {
     const input = undefined;
     const outcome = isValidOrder(input);
     expect(outcome).toBe(false);
@@ -198,6 +199,39 @@ describe("isValidOrder", () => {
   test("isValidOrder function returns false when passed an array", () => {
     const input = ["asc"];
     const outcome = isValidOrder(input);
+    expect(outcome).toBe(false);
+  });
+});
+
+describe("isValidTopics", () => {
+  test("isValidTopics function returns true when passed a valid topic", () => {
+    const input = "paper";
+    const outcome = isValidTopics(input);
+    expect(outcome).toBe(true);
+  });
+  describe("isValidTopics function returns false when passed an invalid topic", () => {
+    const input = "tennis";
+    const outcome = isValidTopics(input);
+    expect(outcome).toBe(false);
+  });
+  test("isValidTopics function returns false when passed an empty string", () => {
+    const input = "";
+    const outcome = isValidTopics(input);
+    expect(outcome).toBe(false);
+  });
+  test("isValidTopics function returns false when pass undefined", () => {
+    const input = undefined;
+    const outcome = isValidTopics(input);
+    expect(outcome).toBe(false);
+  });
+  test("isValidTopics function returns false when passed null", () => {
+    const input = null;
+    const outcome = isValidTopics(input);
+    expect(outcome).toBe(false);
+  });
+  test("isValidTopics function returns false when passed a number", () => {
+    const input = 1;
+    const outcome = isValidTopics(input);
     expect(outcome).toBe(false);
   });
 });

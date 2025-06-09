@@ -33,10 +33,17 @@ function isValidOrder(value) {
   return validOrder.includes(value);
 }
 
+const validTopics = ["mitch", "cats", "paper"];
+
+function isValidTopics(topic) {
+  return validTopics.includes(topic);
+}
+
 module.exports = {
   convertCommentsCount,
   isValidId,
   isValidIncVotes,
   isValidSortBy,
   isValidOrder,
+  isValidTopics,
 };
