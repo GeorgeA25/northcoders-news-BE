@@ -1,7 +1,14 @@
 const db = require("../db/connection");
+const { isValidSortBy, isValidOrder } = require("../utils/validators");
 
-const selectArticles = async () => {
-  const { rows: articles } = await db.query(`
+const selectArticles = async (sort_by = "created_at", order = "desc") => {
+  if (!isValidSortBy(sort_by)) {
+    return Promise.reject({ status: 400, message: "Invalid sort_by query" });
+  }
+  if (!isValidOrder(order)) {
+    return Promise.reject({ status: 400, message: "Invalid order query" });
+  }
+  const query = `
         SELECT
         articles.article_id,
         articles.title,
@@ -19,7 +26,8 @@ const selectArticles = async () => {
         articles.created_at,
         articles.votes,
         articles.article_img_url 
-        ORDER BY articles.created_at DESC;`);
+        ORDER BY articles.${sort_by} ${order};`;
+  const { rows: articles } = await db.query(query);
   return articles;
 };
 
