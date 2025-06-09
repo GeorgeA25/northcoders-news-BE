@@ -32,6 +32,7 @@ const selectArticlesById = async (id) => {
   if (!user) {
     return Promise.reject({ status: 404, message: "Article not found" });
   } else {
+    console.log(user);
     return user;
   }
 };
@@ -46,7 +47,7 @@ const selectCommentsByArticleId = async (id) => {
   }
 
   const { rows: comments } = await db.query(
-    `SELECT comments.comment_id, comments.votes, comments.created_at, comments.author, comments.body, comments.article_id FROM comments WHERE comments.article_id = $1 ORDER BY comments.created_at DESC;`,
+    `SELECT * FROM comments WHERE comments.article_id = $1 ORDER BY comments.created_at DESC;`,
     [id]
   );
   return comments;
