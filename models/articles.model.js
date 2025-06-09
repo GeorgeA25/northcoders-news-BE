@@ -1,14 +1,26 @@
 const db = require("../db/connection");
-const { isValidSortBy, isValidOrder } = require("../utils/validators");
+const {
+  isValidSortBy,
+  isValidOrder,
+  isValidTopics,
+} = require("../utils/validators");
 
-const selectArticles = async (sort_by = "created_at", order = "desc") => {
+const selectArticles = async (
+  sort_by = "created_at",
+  order = "desc",
+  topic
+) => {
   if (!isValidSortBy(sort_by)) {
     return Promise.reject({ status: 400, message: "Invalid sort_by query" });
   }
   if (!isValidOrder(order)) {
     return Promise.reject({ status: 400, message: "Invalid order query" });
   }
-  const query = `
+  if (topic && !isValidTopics(topic)) {
+    return Promise.reject({ status: 400, message: "Invalid topic query" });
+  }
+  const queryValues = [];
+  let query = `
         SELECT
         articles.article_id,
         articles.title,
@@ -19,15 +31,16 @@ const selectArticles = async (sort_by = "created_at", order = "desc") => {
         articles.article_img_url,
         COUNT(comments.comment_id) AS comment_count
         FROM articles
-        LEFT JOIN comments ON comments.article_id = articles.article_id
-        GROUP BY articles.article_id, articles.title,
-        articles.topic,
-        articles.author,
-        articles.created_at,
-        articles.votes,
-        articles.article_img_url 
+        LEFT JOIN comments ON comments.article_id = articles.article_id`;
+
+  if (topic) {
+    queryValues.push(topic);
+    query += ` WHERE articles.topic = $1`;
+  }
+
+  query += ` GROUP BY articles.article_id
         ORDER BY articles.${sort_by} ${order};`;
-  const { rows: articles } = await db.query(query);
+  const { rows: articles } = await db.query(query, queryValues);
   return articles;
 };
 
