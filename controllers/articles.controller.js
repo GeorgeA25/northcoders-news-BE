@@ -12,7 +12,8 @@ const {
 } = require("../utils/validators");
 const getArticles = async (request, response, next) => {
   try {
-    const articles = await selectArticles();
+    const { sort_by, order } = request.query;
+    const articles = await selectArticles(sort_by, order);
     const formattedArticles = convertCommentsCount(articles);
     response.status(200).send({ articles: formattedArticles });
   } catch (error) {
