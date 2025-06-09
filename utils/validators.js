@@ -14,4 +14,29 @@ function isValidIncVotes(value) {
   return typeof value === "number" && (value === 1 || value == -100);
 }
 
-module.exports = { convertCommentsCount, isValidId, isValidIncVotes };
+const validSortBy = [
+  "article_id",
+  "title",
+  "topic",
+  "author",
+  "created_at",
+  "votes",
+  "comment_count",
+];
+const validOrder = ["asc", "desc"];
+
+function isValidSortBy(value) {
+  return validSortBy.includes(value);
+}
+
+function isValidOrder(value) {
+  return validOrder.includes(value);
+}
+
+module.exports = {
+  convertCommentsCount,
+  isValidId,
+  isValidIncVotes,
+  isValidSortBy,
+  isValidOrder,
+};
