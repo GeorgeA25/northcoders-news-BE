@@ -1,13 +1,15 @@
 const ENV = process.env.NODE_ENV || "development";
 
-require("dotenv").config({ path: `${__dirname}/../.env.${ENV}` });
-
 const { Pool } = require("pg");
+
+require("dotenv").config({ path: `${__dirname}/../.env.${ENV}` });
 
 if (!process.env.PGDATABASE && !process.env.DATABASE_URL) {
   throw new Error("PGDATABASE OR DATABASE_URL not set");
 } else {
-  console.log(`Connected to ${process.env.PGDATABASE}`);
+  console.log(
+    `Connected to ${process.env.PGDATABASE || "DATABASE_URL (remote)"}`
+  );
 }
 
 const config = {};
