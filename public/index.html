@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>NC NEWS</title>
+  </head>
+  <body id="top">
+    <header>
+      <h1>NC NEWS</h1>
+      <nav>
+        <a href="#get-endpoints">GET</a> | <a href="#post-endpoint">POST</a> |
+        <a href="#patch-endpoint">PATCH</a> |
+        <a href="#delete-endpoint">DELETE</a>
+      </nav>
+    </header>
+    <main>
+      <section id="get-endpoints">
+        <h2>GET Endpoints</h2>
+      </section>
+
+      <section id="get-api">
+        <h3><code>GET /api</code></h3>
+        <p>
+          serves up a JSON representation of all the available endpoints of the
+          api
+        </p>
+
+        <p>The Functionality this API provides is to</p>
+        <ul>
+          <li>Retrieve lists of topics, articles and users</li>
+          <li>
+            Access specific articles by ID, including their comment counts
+          </li>
+          <li>Get comments assiociated with a particular article</li>
+          <li>Post new comments to articles</li>
+          <li>Update article vote counts</li>
+          <li>Delete comments</li>
+        </ul>
+      </section>
+
+      <section id="get-topics">
+        <h3><code>GET /api/topics</code></h3>
+        <p>serves an array of all topics</p>
+        <h4>Example Response</h4>
+        <pre><code>
+    {
+      "topics": [{ "slug": "football", "description": "Footie!" }]
+    }
+        </code></pre>
+      </section>
+
+      <section id="get-articles">
+        <h3><code>GET /api/articles</code></h3>
+        <p>serves an array of all articles</p>
+
+        <h4>Query Parameters</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code> topic </code></td>
+              <td>string</td>
+              <td>filters articles by specified topic slug</td>
+              <td>No</td>
+              <td>-</td>
+              <td><code>?topic=cooking</code></td>
+            </tr>
+            <tr>
+              <td><code>sort_by</code></td>
+              <td>string</td>
+              <td>
+                Sort articles by specified column
+                <br />
+                Allowed values: <code>article_id</code>, <code>title</code>,
+                <code>topic</code>, <code>author</code>,
+                <code>created_at</code>, <code>votes</code>,
+                <code>comment_count</code>
+              </td>
+              <td>No</td>
+              <td><code>created_at</code></td>
+              <td><code>?sort_by=votes</code></td>
+            </tr>
+            <tr>
+              <td><code>order</code></td>
+              <td>string</td>
+              <td>
+                Determines the sort order
+                <br />Allowed values: <code>asc</code>, <code>desc</code>
+              </td>
+              <td>No</td>
+              <td><code>desc</code></td>
+              <td><code>?order=asc</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>EXAMPLE RESPONSE</h4>
+        <pre><code>
+    {
+      "articles": [
+        {
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "created_at": "2018-05-30T15:59:13.341Z",
+          "votes": 0,
+          "comment_count": 6
+        }
+      ]
+    }
+        </code></pre>
+      </section>
+
+      <section id="get-users">
+        <h3><code>GET /api/users</code></h3>
+        <p>serves an array of all users</p>
+        <h4>Example RESPONSE</h4>
+        <pre><code>
+    {
+      "users": [
+        {
+          "username": "tickle122",
+          "name": "Tom Tickle",
+          "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+        }
+      ]
+    }
+        </code></pre>
+      </section>
+
+      <section id="get-articles-:article_id">
+        <h3><code>GET /api/articles/:article_id</code></h3>
+        <p>serves an article object based on the given article_id</p>
+        <h4>Example Response</h4>
+        <pre><code>
+    {
+      "users": [
+        {
+          "username": "tickle122",
+          "name": "Tom Tickle",
+          "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+        }
+      ]
+    }
+        </code></pre>
+      </section>
+
+      <section id="get-articles/:article_id/comments">
+        <h3><code>GET /api/articles/:article_id/comments</code></h3>
+        <p>
+          serves an object containing an array of comments for the given
+          article_id
+        </p>
+        <h4>Example Response</h4>
+        <pre><code>
+    {
+      "comments": [
+        {
+          "comment_id": 89,
+          "votes": 2,
+          "created_at": "2020-10-24T06:08:00.000Z",
+          "author": "cooljmessy",
+          "body": "Esse et expedita harum non. Voluptatibus commodi voluptatem. Minima velit suscipit numquam ea. Id vitae debitis aut incidunt odio quo quam possimus ipsum.",
+          "article_id": 1
+        }
+      ]
+    }</code></pre>
+      </section>
+
+      <section id="post-endpoint">
+        <h2>POST Endpoint</h2>
+      </section>
+      <section id="/api/articles/:article_id/comments">
+        <h3><code>POST /api/articles/:article_id/comments</code></h3>
+        <p>serves a new comment to the specified article by article_id</p>
+        <h4>Example Request</h4>
+        <pre><code>
+    {
+      "username": "tickle122",
+      "body": "A test comment"
+    }</code></pre>
+        <h4>Example Response</h4>
+        <pre><code>
+    {
+      "comment": {
+        "comment_id": 301,
+        "article_id": 1,
+        "body": "A test comment",
+        "votes": 0,
+        "author": "tickle122",
+        "created_at": "2025-06-06T17:45:27.152Z"
+      }
+    }
+        </code></pre>
+      </section>
+
+      <section id="patch-endpoint">
+        <h2>PATCH Endpoint</h2>
+      </section>
+      <section id="/api/articles/:article_id">
+        <h3><code>PATCH /api/articles/:article_id</code></h3>
+        <p>serves an updated article object based on the given article_id</p>
+        <h4>Eaxmple Request</h4>
+        <pre><code>
+    {
+      "inc_votes": -100
+    }
+        </code></pre>
+        <h3>Example Response</h3>
+        <pre><code>
+    {
+      "article": {
+        "article_id": 1,
+        "title": "Running a Node App",
+        "topic": "coding",
+        "author": "jessjelly",
+        "body": "This is part two of a series on how to get up and running with Systemd and Node.js. This part dives deeper into how to successfully run your app with systemd long-term, and how to set it up in a production environment.",
+        "created_at": "2020-11-07T06:03:00.000Z",
+        "votes": -99,
+        "article_img_url": "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?w=700&h=700"
+      }
+    }
+        </code></pre>
+      </section>
+
+      <section id="delete-endpoint">
+        <h2>DELETE Endpoint</h2>
+      </section>
+      <section id="/api/comments/:comment_id">
+        <h3><code>DELETE /api/comments/:comment_id</code></h3>
+        <p>
+          serves no content because comment was deleted based on given
+          comment_id
+        </p>
+        <h4>Example Response</h4>
+        <pre><code>
+          {}
+        </code></pre>
+      </section>
+    </main>
+    <footer>
+      <p><a href="#top">Back to Top</a></p>
+    </footer>
+  </body>
+</html>
