@@ -17,6 +17,9 @@ const {
   customHandlerError,
   handle500,
 } = require("./errorHandlers");
+const cors = require("cors");
+
+app.use(cors());
 
 app.use(express.json());
 
