@@ -56,6 +56,22 @@ describe("/api/articles", () => {
       expect(article).not.toHaveProperty("body");
     }
   });
+  test("GET /api/articles/sort_by=comment_count returns articles sorted by comment_count", async () => {
+    const {
+      body: { articles },
+    } = await request(app)
+      .get("/api/articles?sort_by=comment_count")
+      .expect(200);
+    expect(Array.isArray(articles)).toBe(true);
+    for (let i = 0; i < articles.length - 1; i++) {
+      expect(articles[i].comment_count).toBeGreaterThanOrEqual(
+        articles[i + 1].comment_count
+      );
+    }
+    for (const article of articles) {
+      expect(typeof article.comment_count).toBe("number");
+    }
+  });
 });
 
 describe("GET /api/users", () => {
