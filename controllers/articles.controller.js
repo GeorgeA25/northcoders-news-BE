@@ -75,7 +75,7 @@ const updateArticle = async (request, response, next) => {
     if (!isValidId(article_id)) {
       return response.status(400).send({ message: "Bad request" });
     }
-    if (!isValidIncVotes(inc_votes)) {
+    if (typeof inc_votes !== "number" || isNaN(inc_votes)) {
       return response.status(400).send({ message: "Bad request" });
     }
     const updatedArticle = await updateArticleByArticleId(
