@@ -10,10 +10,6 @@ function isValidId(id) {
   return Number.isInteger(number) && number > 0;
 }
 
-function isValidIncVotes(value) {
-  return typeof value === "number" && (value === 1 || value == -100);
-}
-
 const validSortBy = [
   "article_id",
   "title",
@@ -33,7 +29,7 @@ function isValidOrder(value) {
   return validOrder.includes(value);
 }
 
-const validTopics = ["mitch", "cats", "paper"];
+const validTopics = ["coding", "cooking", "football"];
 
 function isValidTopics(topic) {
   return validTopics.includes(topic);
@@ -42,7 +38,6 @@ function isValidTopics(topic) {
 module.exports = {
   convertCommentsCount,
   isValidId,
-  isValidIncVotes,
   isValidSortBy,
   isValidOrder,
   isValidTopics,
