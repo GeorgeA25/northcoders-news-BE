@@ -129,8 +129,8 @@ const updateArticleByArticleId = async (id, inc_votes) => {
   const {
     rows: [updatedArticle],
   } = await db.query(
-    `UPDATE articles SET votes = votes + $2 WHERE article_id = $1 RETURNING *;`,
-    [id, inc_votes]
+    `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *;`,
+    [inc_votes, id]
   );
   return updatedArticle;
 };
