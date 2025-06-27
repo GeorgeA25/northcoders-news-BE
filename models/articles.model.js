@@ -39,7 +39,9 @@ const selectArticles = async (
   }
 
   query += ` GROUP BY articles.article_id
-        ORDER BY articles.${sort_by} ${order};`;
+        ORDER BY ${
+          sort_by === "comment_count" ? "comment_count" : `articles.${sort_by}`
+        } ${order};`;
   const { rows: articles } = await db.query(query, queryValues);
   return articles;
 };
