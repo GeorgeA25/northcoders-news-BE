@@ -10,10 +10,6 @@ function isValidId(id) {
   return Number.isInteger(number) && number > 0;
 }
 
-function isValidIncVotes(value) {
-  return typeof value === "number" && (value === 1 || value == -100);
-}
-
 const validSortBy = [
   "article_id",
   "title",
@@ -42,7 +38,6 @@ function isValidTopics(topic) {
 module.exports = {
   convertCommentsCount,
   isValidId,
-  isValidIncVotes,
   isValidSortBy,
   isValidOrder,
   isValidTopics,
