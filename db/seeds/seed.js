@@ -2,8 +2,16 @@ const db = require("../connection");
 const format = require("pg-format");
 const { convertTimestampToDate, createLookupObj } = require("./utils");
 
-const seed = async ({ topicData, userData, articleData, commentData }) => {
-  await db.query(`DROP TABLE IF EXISTS comments, articles, users, topics;`);
+const seed = async ({
+  topicData,
+  userData,
+  articleData,
+  commentData,
+  emojiData,
+}) => {
+  await db.query(
+    `DROP TABLE IF EXISTS emojis, comments, articles, users, topics ;`
+  );
   await db.query(`CREATE TABLE topics (
         slug VARCHAR(50) PRIMARY KEY,
         description VARCHAR(255) NOT NULL,
@@ -32,6 +40,9 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
         author VARCHAR(50) REFERENCES users(username),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`);
+  await db.query(`CREATE TABLE emojis (
+      emoji_id SERIAL PRIMARY KEY,
+      emoji_symbol VARCHAR NOT NULL)`);
 
   const topicInsertQuery = format(
     `INSERT INTO topics (slug, description, img_url) VALUES %L RETURNING *;`,
@@ -94,6 +105,13 @@ const seed = async ({ topicData, userData, articleData, commentData }) => {
       ]
     )
   );
+  const emojiInsertQuery = format(
+    `INSERT INTO emojis (emoji_symbol) VALUES %L RETURNING *;`,
+    emojiData.map(emoji => [emoji])
+  );
+  console.log(emojiInsertQuery)
+  await db.query(emojiInsertQuery);
+
   return await db.query(commentInsertQuery);
 };
 module.exports = seed;

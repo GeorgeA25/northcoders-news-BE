@@ -5,7 +5,7 @@ const data = require("../db/data/test-data/index");
 beforeAll(() => seed(data));
 afterAll(() => db.end());
 
-describe.skip("seed", () => {
+describe("seed", () => {
   describe("topics table", () => {
     test("topics table exists", () => {
       return db
@@ -561,9 +561,62 @@ describe.skip("seed", () => {
         });
     });
   });
+  describe("emoji table", () => {
+    test("emoji table exists", () => {
+      return db
+        .query(
+          `SELECT EXISTS (
+        SELECT FROM information_schema.tables
+        WHERE table_name = 'emojis')`
+        )
+        .then(({ rows: [{ exists }] }) => {
+          expect(exists).toBe(true);
+        });
+    });
+    test("emoji table has emoji_id column as a serial and primary key", () => {
+      return db
+        .query(
+          `SELECT column_name, data_type, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'emojis'
+        AND column_name = 'emoji_id';`
+        )
+        .then(({ rows: [column] }) => {
+          expect(column.column_name).toBe("emoji_id");
+          expect(column.data_type).toBe("integer");
+          expect(column.column_default).not.toBeNull();
+        })
+        .then(() => {
+          return db.query(
+            `SELECT column_name
+          FROM information_schema.table_constraints AS tc
+          JOIN information_schema.key_column_usage AS kcu
+          ON tc.constraint_name = kcu.constraint_name
+          WHERE tc.constraint_type = 'PRIMARY KEY'
+          AND tc.table_name = 'emojis'`
+          );
+        })
+        .then(({ rows: [{ column_name }] }) => {
+          expect(column_name).toBe("emoji_id");
+        });
+    });
+    test("emoji table has emoji_symbol column as character varying", () => {
+      return db
+        .query(
+          `SELECT column_name, data_type
+        FROM information_schema.columns
+        WHERE table_name = 'emojis'
+        AND column_name = 'emoji_symbol'`
+        )
+        .then(({ rows: [column] }) => {
+          expect(column.column_name).toBe("emoji_symbol");
+          expect(column.data_type).toBe("character varying");
+        });
+    });
+  });
 });
 
-describe.skip("data insertion", () => {
+describe("data insertion", () => {
   test("topics data has been inserted correctly", () => {
     return db.query(`SELECT * FROM topics;`).then(({ rows: topics }) => {
       expect(topics).toHaveLength(3);
@@ -612,6 +665,15 @@ describe.skip("data insertion", () => {
         expect(comment).toHaveProperty("author");
         expect(comment).toHaveProperty("votes");
         expect(comment).toHaveProperty("created_at");
+      });
+    });
+  });
+  test("emoji data insertion", () => {
+    return db.query(`SELECT * FROM emojis;`).then(({ rows: emojis }) => {
+      expect(emojis.length).toBeGreaterThan(0);
+      emojis.forEach((emoji) => {
+        expect(emoji).toHaveProperty("emoji_id");
+        expect(emoji).toHaveProperty("emoji_symbol");
       });
     });
   });
