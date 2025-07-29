@@ -1,16 +1,16 @@
 const db = require("../connection");
 const format = require("pg-format");
 const { convertTimestampToDate, createLookupObj } = require("./utils");
-
 const seed = async ({
   topicData,
   userData,
   articleData,
   commentData,
   emojiData,
+  emojiReactionsData,
 }) => {
   await db.query(
-    `DROP TABLE IF EXISTS emojis, comments, articles, users, topics ;`
+    `DROP TABLE IF EXISTS emoji_reactions, comments, articles, emojis, users, topics;`
   );
   await db.query(`CREATE TABLE topics (
         slug VARCHAR(50) PRIMARY KEY,
@@ -43,6 +43,16 @@ const seed = async ({
   await db.query(`CREATE TABLE emojis (
       emoji_id SERIAL PRIMARY KEY,
       emoji_symbol VARCHAR NOT NULL)`);
+
+  await db.query(`
+  CREATE TABLE emoji_reactions (
+    emoji_reactions_id SERIAL PRIMARY KEY, 
+    emoji_id INT REFERENCES emojis(emoji_id), 
+    username VARCHAR(50) REFERENCES users(username), 
+    article_id INT REFERENCES articles(article_id), 
+    UNIQUE (emoji_id, username, article_id)
+  );
+`);
 
   const topicInsertQuery = format(
     `INSERT INTO topics (slug, description, img_url) VALUES %L RETURNING *;`,
@@ -107,11 +117,20 @@ const seed = async ({
   );
   const emojiInsertQuery = format(
     `INSERT INTO emojis (emoji_symbol) VALUES %L RETURNING *;`,
-    emojiData.map(emoji => [emoji])
+    emojiData.map((emoji) => [emoji])
   );
-  console.log(emojiInsertQuery)
   await db.query(emojiInsertQuery);
 
+  const emojiReactionsInsertQuery = format(
+    `INSERT INTO emoji_reactions (emoji_id, username, article_id) VALUES %L RETURNING *;`,
+    emojiReactionsData.map(({ emoji_id, username, article_id }) => [
+      emoji_id,
+      username,
+      article_id,
+    ])
+  );
+
+  await db.query(emojiReactionsInsertQuery);
   return await db.query(commentInsertQuery);
 };
 module.exports = seed;
