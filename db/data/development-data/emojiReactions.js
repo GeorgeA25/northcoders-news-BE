@@ -1,8 +1,7 @@
 module.exports = [
   {
-    username: "icellusedkars",
+    username: "tickle122",
     emoji_id: 1,
     article_id: 1,
-    emoji_symbol: "👍",
   },
 ];
