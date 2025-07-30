@@ -46,6 +46,54 @@
       ]
     }
   },
+  "GET /api/emojis": {
+    "description": "serves an array of all emojis",
+    "queries": [],
+    "exampleResponse": {
+      "emojis": [
+        {
+          "emoji_id": 1,
+          "emoji_symbol": "👍"
+        },
+        {
+          "emoji_id": 2,
+          "emoji_symbol": "👎"
+        },
+        {
+          "emoji_id": 3,
+          "emoji_symbol": "❤️"
+        },
+        {
+          "emoji_id": 4,
+          "emoji_symbol": "😂"
+        },
+        {
+          "emoji_id": 5,
+          "emoji_symbol": "😍"
+        },
+        {
+          "emoji_id": 6,
+          "emoji_symbol": "😢"
+        },
+        {
+          "emoji_id": 7,
+          "emoji_symbol": "😡"
+        },
+        {
+          "emoji_id": 8,
+          "emoji_symbol": "🙌"
+        },
+        {
+          "emoji_id": 9,
+          "emoji_symbol": "🔥"
+        },
+        {
+          "emoji_id": 10,
+          "emoji_symbol": "💯"
+        }
+      ]
+    }
+  },
   "GET /api/articles/:article_id": {
     "description": "serves an article object based on the given article_id",
     "exampleResponse": {
@@ -76,6 +124,25 @@
       ]
     }
   },
+  "GET /api/emoji-reactions/:article_id": {
+    "description": "Gets all emoji reactions for a specific article",
+    "exampleResponse": {
+      "reactions": [
+        {
+          "emoji_reactions_id": 1,
+          "emoji_id": 1,
+          "username": "tickle122",
+          "article_id": 1
+        },
+        {
+          "emoji_reactions_id": 2,
+          "emoji_id": 2,
+          "username": "johnDoe",
+          "article_id": 1
+        }
+      ]
+    }
+  },
   "POST /api/articles/:article_id/comments": {
     "description": "serves a new comment to the specified article by article_id",
     "exampleRequest": {
@@ -90,6 +157,22 @@
         "votes": 0,
         "author": "tickle122",
         "created_at": "2025-06-06T17:45:27.152Z"
+      }
+    }
+  },
+  "POST /api/emoji-reactions": {
+    "description": "Adds a new emoji reaction to a specific article",
+    "exampleRequest": {
+      "emoji_id": 1,
+      "username": "tickle122",
+      "article_id": 1
+    },
+    "exampleResponse": {
+      "reaction": {
+        "emoji_reactions_id": 1,
+        "emoji_id": 1,
+        "username": "tickle122",
+        "article_id": 1
       }
     }
   },
@@ -113,6 +196,10 @@
   },
   "DELETE /api/comments/:comment_id": {
     "description": "serves no content because comment was deleted based on given comment_id",
+    "exampleResponse": {}
+  },
+  "DELETE /api/emoji-reactions/:emoji_id/:username/:article_id": {
+    "description": "Deletes a emoji reaction on a specific article base on emoji_id, username and article_id",
     "exampleResponse": {}
   }
 }
