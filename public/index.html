@@ -177,6 +177,69 @@
     }</code></pre>
       </section>
 
+      <section id="get emojis"></section>
+      <h3><code>GET /api/emojis</code></h3>
+      <p>serves an array of all emojis</p>
+      <h4>Example Response</h4>
+      <pre><code> {
+          "emoji_id": 1,
+          "emoji_symbol": "👍"
+        },
+        {
+          "emoji_id": 2,
+          "emoji_symbol": "👎"
+        },
+        {
+          "emoji_id": 3,
+          "emoji_symbol": "❤️"
+        },
+        {
+          "emoji_id": 4,
+          "emoji_symbol": "😂"
+        },
+        {
+          "emoji_id": 5,
+          "emoji_symbol": "😍"
+        },
+        {
+          "emoji_id": 6,
+          "emoji_symbol": "😢"
+        },
+        {
+          "emoji_id": 7,
+          "emoji_symbol": "😡"
+        },
+        {
+          "emoji_id": 8,
+          "emoji_symbol": "🙌"
+        },
+        {
+          "emoji_id": 9,
+          "emoji_symbol": "🔥"
+        },
+        {
+          "emoji_id": 10,
+          "emoji_symbol": "💯"
+        }</code></pre>
+
+      <section id="get-emoji-reactions">
+        <h3><code>GET /api/emojis</code></h3>
+        <p>Gets all emoji reactions on a specific article</p>
+        <h4>Example Responses</h4>
+        <pre><code> {
+          "emoji_reactions_id": 1,
+          "emoji_id": 1,
+          "username": "tickle122",
+          "article_id": 1
+        },
+        {
+          "emoji_reactions_id": 2,
+          "emoji_id": 2,
+          "username": "johnDoe",
+          "article_id": 1
+        }</code></pre>
+      </section>
+
       <section id="post-endpoint">
         <h2>POST Endpoint</h2>
       </section>
@@ -203,6 +266,26 @@
     }
         </code></pre>
       </section>
+
+      <section
+        id=".api/emoji_reactions/:emoji_id/:username/:article_id"
+      ></section>
+      <h3>
+        <code>POST /api/emoji-reactions/:emoji_id/:username/:article_id</code>
+      </h3>
+      <p>Adds a new emoji reaction to a specific article</p>
+      <h4>Example Request</h4>
+      <pre><code>
+      "emoji_id": 1,
+      "username": "tickle122",
+      "article_id": 1</code></pre>
+      <h4>Example Response</h4>
+      <pre><code> {
+        "emoji_reactions_id": 1,
+        "emoji_id": 1,
+        "username": "tickle122",
+        "article_id": 1
+      }</code></pre>
 
       <section id="patch-endpoint">
         <h2>PATCH Endpoint</h2>
@@ -247,6 +330,19 @@
           {}
         </code></pre>
       </section>
+
+      <section
+        id="/api/emoji-reactions/:emoji_id/:username/:article_id"
+      ></section>
+      <h3>
+        <code>DELETE api/emoji-reactions/:emoji_id/:username/:article_id</code>
+      </h3>
+      <p>
+        Deletes a emoji reaction on a specific article base on emoji_id,
+        username and article_id
+      </p>
+      <h4>Example Response</h4>
+      <pre><code>{}</code></pre>
     </main>
     <footer>
       <p><a href="#top">Back to Top</a></p>
