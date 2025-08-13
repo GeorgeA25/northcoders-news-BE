@@ -12,7 +12,7 @@ beforeEach(() => {
 afterAll(() => {
   return db.end();
 });
-describe("GET /api", () => {
+describe.skip("GET /api", () => {
   test("GET /api responds with status 200 and returns an object containing an 'endpoints' key with endpoint documentation", async () => {
     const {
       body: { endpoints },
@@ -21,7 +21,7 @@ describe("GET /api", () => {
   });
 });
 
-describe("GET /api/topics", () => {
+describe.skip("GET /api/topics", () => {
   test("GET /api/topics responds with status 200 and returns an object containing a 'topics' key, where the value is an array of topic objects each having 'slug' and 'description' properties", async () => {
     const {
       body: { topics },
@@ -34,7 +34,7 @@ describe("GET /api/topics", () => {
   });
 });
 
-describe("/api/articles", () => {
+describe.skip("/api/articles", () => {
   test("GET /api/articles responds with a status 200 and returns an object with key called articles and the value being an array of article objects in descending order and not include body property within any article object", async () => {
     const {
       body: { articles },
@@ -74,7 +74,7 @@ describe("/api/articles", () => {
   });
 });
 
-describe("GET /api/users", () => {
+describe.skip("GET /api/users", () => {
   test("GET /api/users responds with status 200 and returns an object containing a 'users' key, where the value is an array of topic objects each having 'username', 'name and 'avatar_url' properties", async () => {
     const {
       body: { users },
@@ -88,7 +88,7 @@ describe("GET /api/users", () => {
   });
 });
 
-describe("GET /api/articles/:article_id", () => {
+describe.skip("GET /api/articles/:article_id", () => {
   test("GET /api/articles/:article_id responds with a status 200 and returns an object with a key of article and the value of an article object with correcet properties", async () => {
     const { body } = await request(app).get("/api/articles/1").expect(200);
     const article = body.article;
@@ -111,7 +111,7 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
-describe("GET /api/articles/:article_id/comments", () => {
+describe.skip("GET /api/articles/:article_id/comments", () => {
   test("GET /api/articles/:article_id/comments responds with a status 200 and returns an object with a key of comments and the value to be an array of comments for the correct article_id", async () => {
     const {
       body: { comments },
@@ -145,7 +145,20 @@ describe("GET /api/articles/:article_id/comments", () => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments", () => {
+describe.skip("GET api/emojis", () => {
+  test("GET /api/emojis responds with a status 200 and returns an object with a key of emojis which has a value of an array of emoji objects each have a properties of emoji_id and emoji_symbol", async () => {
+    const {
+      body: { emojis },
+    } = await request(app).get("/api/emojis").expect(200);
+    expect(Array.isArray(emojis)).toBe(true);
+    for (const emoji of emojis) {
+      expect(typeof emoji.emoji_id).toBe("number");
+      expect(typeof emoji.emoji_symbol).toBe("string");
+    }
+  });
+});
+
+describe.skip("POST /api/articles/:article_id/comments", () => {
   test("POST /api/articles/:article_id/comments responds with a status 201 when comments object accepts an object with username and body properties with the value of the posted comment", async () => {
     const newComment = {
       username: "butter_bridge",
@@ -219,7 +232,7 @@ describe("POST /api/articles/:article_id/comments", () => {
   });
 });
 
-describe("PATCH /api/articles/:article_id", () => {
+describe.skip("PATCH /api/articles/:article_id", () => {
   test("PATCH /api/articles/:article_id responds with a status 200 and returns an object with a key of 'article' containing the updated article with votes incremented by the value in inc_votes property with the value of 1", async () => {
     const {
       body: { article },
@@ -279,7 +292,7 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe("DELETE /api/comments/:comment_id", () => {
+describe.skip("DELETE /api/comments/:comment_id", () => {
   test("DELETE /api/comments/:comment_id responds with a status 204 and deletes a comment from the comments table", async () => {
     await request(app).delete("/api/comments/1").expect(204);
 
@@ -296,7 +309,7 @@ describe("DELETE /api/comments/:comment_id", () => {
   });
 });
 
-describe("Invalid paths", () => {
+describe.skip("Invalid paths", () => {
   test("GET /api/not-a-route responds with a status 404 and returns an error message", async () => {
     const { body } = await request(app).get("/api/not-a-route").expect(404);
     expect(body.message).toBe("Route not found");

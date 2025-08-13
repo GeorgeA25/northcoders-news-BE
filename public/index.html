@@ -8,7 +8,7 @@
   </head>
   <body id="top">
     <header>
-      <h1>NC NEWS</h1>
+      <h1 class="header">NC NEWS</h1>
       <nav>
         <a href="#get-endpoints">GET</a> | <a href="#post-endpoint">POST</a> |
         <a href="#patch-endpoint">PATCH</a> |
@@ -16,96 +16,97 @@
       </nav>
     </header>
     <main>
-      <section id="get-endpoints">
-        <h2>GET Endpoints</h2>
-      </section>
+      <div class="get-endpoints">
+        <section id="get-endpoints">
+          <h2>GET Endpoints</h2>
+        </section>
 
-      <section id="get-api">
-        <h3><code>GET /api</code></h3>
-        <p>
-          serves up a JSON representation of all the available endpoints of the
-          api
-        </p>
+        <section id="get-api">
+          <h3><code>GET /api</code></h3>
+          <p>
+            serves up a JSON representation of all the available endpoints of
+            the api
+          </p>
 
-        <p>The Functionality this API provides is to</p>
-        <ul>
-          <li>Retrieve lists of topics, articles and users</li>
-          <li>
-            Access specific articles by ID, including their comment counts
-          </li>
-          <li>Get comments assiociated with a particular article</li>
-          <li>Post new comments to articles</li>
-          <li>Update article vote counts</li>
-          <li>Delete comments</li>
-        </ul>
-      </section>
+          <p>The Functionality this API provides is to</p>
+          <ul>
+            <li>Retrieve lists of topics, articles and users</li>
+            <li>
+              Access specific articles by ID, including their comment counts
+            </li>
+            <li>Get comments assiociated with a particular article</li>
+            <li>Post new comments to articles</li>
+            <li>Update article vote counts</li>
+            <li>Delete comments</li>
+          </ul>
+        </section>
 
-      <section id="get-topics">
-        <h3><code>GET /api/topics</code></h3>
-        <p>serves an array of all topics</p>
-        <h4>Example Response</h4>
-        <pre><code>
+        <section id="get-topics">
+          <h3><code>GET /api/topics</code></h3>
+          <p>serves an array of all topics</p>
+          <h4>Example Response</h4>
+          <pre><code>
     {
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
         </code></pre>
-      </section>
+        </section>
 
-      <section id="get-articles">
-        <h3><code>GET /api/articles</code></h3>
-        <p>serves an array of all articles</p>
+        <section id="get-articles">
+          <h3><code>GET /api/articles</code></h3>
+          <p>serves an array of all articles</p>
 
-        <h4>Query Parameters</h4>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Description</th>
-              <th>Required</th>
-              <th>Default</th>
-              <th>Example</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code> topic </code></td>
-              <td>string</td>
-              <td>filters articles by specified topic slug</td>
-              <td>No</td>
-              <td>-</td>
-              <td><code>?topic=cooking</code></td>
-            </tr>
-            <tr>
-              <td><code>sort_by</code></td>
-              <td>string</td>
-              <td>
-                Sort articles by specified column
-                <br />
-                Allowed values: <code>article_id</code>, <code>title</code>,
-                <code>topic</code>, <code>author</code>,
-                <code>created_at</code>, <code>votes</code>,
-                <code>comment_count</code>
-              </td>
-              <td>No</td>
-              <td><code>created_at</code></td>
-              <td><code>?sort_by=votes</code></td>
-            </tr>
-            <tr>
-              <td><code>order</code></td>
-              <td>string</td>
-              <td>
-                Determines the sort order
-                <br />Allowed values: <code>asc</code>, <code>desc</code>
-              </td>
-              <td>No</td>
-              <td><code>desc</code></td>
-              <td><code>?order=asc</code></td>
-            </tr>
-          </tbody>
-        </table>
-        <h4>EXAMPLE RESPONSE</h4>
-        <pre><code>
+          <h4>Query Parameters</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Required</th>
+                <th>Default</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code> topic </code></td>
+                <td>string</td>
+                <td>filters articles by specified topic slug</td>
+                <td>No</td>
+                <td>-</td>
+                <td><code>?topic=cooking</code></td>
+              </tr>
+              <tr>
+                <td><code>sort_by</code></td>
+                <td>string</td>
+                <td>
+                  Sort articles by specified column
+                  <br />
+                  Allowed values: <code>article_id</code>, <code>title</code>,
+                  <code>topic</code>, <code>author</code>,
+                  <code>created_at</code>, <code>votes</code>,
+                  <code>comment_count</code>
+                </td>
+                <td>No</td>
+                <td><code>created_at</code></td>
+                <td><code>?sort_by=votes</code></td>
+              </tr>
+              <tr>
+                <td><code>order</code></td>
+                <td>string</td>
+                <td>
+                  Determines the sort order
+                  <br />Allowed values: <code>asc</code>, <code>desc</code>
+                </td>
+                <td>No</td>
+                <td><code>desc</code></td>
+                <td><code>?order=asc</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>EXAMPLE RESPONSE</h4>
+          <pre><code>
     {
       "articles": [
         {
@@ -119,13 +120,13 @@
       ]
     }
         </code></pre>
-      </section>
+        </section>
 
-      <section id="get-users">
-        <h3><code>GET /api/users</code></h3>
-        <p>serves an array of all users</p>
-        <h4>Example RESPONSE</h4>
-        <pre><code>
+        <section id="get-users">
+          <h3><code>GET /api/users</code></h3>
+          <p>serves an array of all users</p>
+          <h4>Example RESPONSE</h4>
+          <pre><code>
     {
       "users": [
         {
@@ -136,13 +137,13 @@
       ]
     }
         </code></pre>
-      </section>
+        </section>
 
-      <section id="get-articles-:article_id">
-        <h3><code>GET /api/articles/:article_id</code></h3>
-        <p>serves an article object based on the given article_id</p>
-        <h4>Example Response</h4>
-        <pre><code>
+        <section id="get-articles-:article_id">
+          <h3><code>GET /api/articles/:article_id</code></h3>
+          <p>serves an article object based on the given article_id</p>
+          <h4>Example Response</h4>
+          <pre><code>
     {
       "users": [
         {
@@ -153,16 +154,16 @@
       ]
     }
         </code></pre>
-      </section>
+        </section>
 
-      <section id="get-articles/:article_id/comments">
-        <h3><code>GET /api/articles/:article_id/comments</code></h3>
-        <p>
-          serves an object containing an array of comments for the given
-          article_id
-        </p>
-        <h4>Example Response</h4>
-        <pre><code>
+        <section id="get-articles/:article_id/comments">
+          <h3><code>GET /api/articles/:article_id/comments</code></h3>
+          <p>
+            serves an object containing an array of comments for the given
+            article_id
+          </p>
+          <h4>Example Response</h4>
+          <pre><code>
     {
       "comments": [
         {
@@ -175,13 +176,13 @@
         }
       ]
     }</code></pre>
-      </section>
+        </section>
 
-      <section id="get emojis"></section>
-      <h3><code>GET /api/emojis</code></h3>
-      <p>serves an array of all emojis</p>
-      <h4>Example Response</h4>
-      <pre><code> {
+        <section id="get emojis"></section>
+        <h3><code>GET /api/emojis</code></h3>
+        <p>serves an array of all emojis</p>
+        <h4>Example Response</h4>
+        <pre><code> {
           "emoji_id": 1,
           "emoji_symbol": "👍"
         },
@@ -222,11 +223,11 @@
           "emoji_symbol": "💯"
         }</code></pre>
 
-      <section id="get-emoji-reactions">
-        <h3><code>GET /api/emojis</code></h3>
-        <p>Gets all emoji reactions on a specific article</p>
-        <h4>Example Responses</h4>
-        <pre><code> {
+        <section id="get-emoji-reactions">
+          <h3><code>GET /api/emojis</code></h3>
+          <p>Gets all emoji reactions on a specific article</p>
+          <h4>Example Responses</h4>
+          <pre><code> {
           "emoji_reactions_id": 1,
           "emoji_id": 1,
           "username": "tickle122",
@@ -238,22 +239,23 @@
           "username": "johnDoe",
           "article_id": 1
         }</code></pre>
-      </section>
-
-      <section id="post-endpoint">
-        <h2>POST Endpoint</h2>
-      </section>
-      <section id="/api/articles/:article_id/comments">
-        <h3><code>POST /api/articles/:article_id/comments</code></h3>
-        <p>serves a new comment to the specified article by article_id</p>
-        <h4>Example Request</h4>
-        <pre><code>
+        </section>
+      </div>
+      <div class="post-endpoints">
+        <section id="post-endpoint">
+          <h2>POST Endpoint</h2>
+        </section>
+        <section id="/api/articles/:article_id/comments">
+          <h3><code>POST /api/articles/:article_id/comments</code></h3>
+          <p>serves a new comment to the specified article by article_id</p>
+          <h4>Example Request</h4>
+          <pre><code>
     {
       "username": "tickle122",
       "body": "A test comment"
     }</code></pre>
-        <h4>Example Response</h4>
-        <pre><code>
+          <h4>Example Response</h4>
+          <pre><code>
     {
       "comment": {
         "comment_id": 301,
@@ -265,42 +267,43 @@
       }
     }
         </code></pre>
-      </section>
+        </section>
 
-      <section
-        id=".api/emoji_reactions/:emoji_id/:username/:article_id"
-      ></section>
-      <h3>
-        <code>POST /api/emoji-reactions/:emoji_id/:username/:article_id</code>
-      </h3>
-      <p>Adds a new emoji reaction to a specific article</p>
-      <h4>Example Request</h4>
-      <pre><code>
+        <section
+          id=".api/emoji_reactions/:emoji_id/:username/:article_id"
+        ></section>
+        <h3>
+          <code>POST /api/emoji-reactions/:emoji_id/:username/:article_id</code>
+        </h3>
+        <p>Adds a new emoji reaction to a specific article</p>
+        <h4>Example Request</h4>
+        <pre><code>
       "emoji_id": 1,
       "username": "tickle122",
       "article_id": 1</code></pre>
-      <h4>Example Response</h4>
-      <pre><code> {
+        <h4>Example Response</h4>
+        <pre><code> {
         "emoji_reactions_id": 1,
         "emoji_id": 1,
         "username": "tickle122",
         "article_id": 1
       }</code></pre>
-
-      <section id="patch-endpoint">
-        <h2>PATCH Endpoint</h2>
-      </section>
-      <section id="/api/articles/:article_id">
-        <h3><code>PATCH /api/articles/:article_id</code></h3>
-        <p>serves an updated article object based on the given article_id</p>
-        <h4>Eaxmple Request</h4>
-        <pre><code>
+      </div>
+      <div class="patch-endpoints">
+        <section id="patch-endpoint">
+          <h2>PATCH Endpoint</h2>
+        </section>
+        <section id="/api/articles/:article_id">
+          <h3><code>PATCH /api/articles/:article_id</code></h3>
+          <p>serves an updated article object based on the given article_id</p>
+          <h4>Eaxmple Request</h4>
+          <pre><code>
     {
       "inc_votes": -100
     }
         </code></pre>
-        <h3>Example Response</h3>
-        <pre><code>
+          <h3>Example Response</h3>
+          <pre><code>
     {
       "article": {
         "article_id": 1,
@@ -314,35 +317,38 @@
       }
     }
         </code></pre>
-      </section>
-
-      <section id="delete-endpoint">
-        <h2>DELETE Endpoint</h2>
-      </section>
-      <section id="/api/comments/:comment_id">
-        <h3><code>DELETE /api/comments/:comment_id</code></h3>
-        <p>
-          serves no content because comment was deleted based on given
-          comment_id
-        </p>
-        <h4>Example Response</h4>
-        <pre><code>
+        </section>
+      </div>
+      <div class="delete-endpoints">
+        <section id="delete-endpoint">
+          <h2>DELETE Endpoint</h2>
+        </section>
+        <section id="/api/comments/:comment_id">
+          <h3><code>DELETE /api/comments/:comment_id</code></h3>
+          <p>
+            serves no content because comment was deleted based on given
+            comment_id
+          </p>
+          <h4>Example Response</h4>
+          <pre><code>
           {}
         </code></pre>
-      </section>
-
-      <section
-        id="/api/emoji-reactions/:emoji_id/:username/:article_id"
-      ></section>
-      <h3>
-        <code>DELETE api/emoji-reactions/:emoji_id/:username/:article_id</code>
-      </h3>
-      <p>
-        Deletes a emoji reaction on a specific article base on emoji_id,
-        username and article_id
-      </p>
-      <h4>Example Response</h4>
-      <pre><code>{}</code></pre>
+        </section>
+        <section
+          id="/api/emoji-reactions/:emoji_id/:username/:article_id"
+        ></section>
+        <h3>
+          <code
+            >DELETE api/emoji-reactions/:emoji_id/:username/:article_id</code
+          >
+        </h3>
+        <p>
+          Deletes a emoji reaction on a specific article base on emoji_id,
+          username and article_id
+        </p>
+        <h4>Example Response</h4>
+        <pre><code>{}</code></pre>
+      </div>
     </main>
     <footer>
       <p><a href="#top">Back to Top</a></p>

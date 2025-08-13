@@ -1,1 +1,38 @@
- 
+body {
+  background-color: black;
+}
+
+.header {
+  color: white;
+  font-size: 2em;
+  text-align: center;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.get-endpoints {
+  color: silver;
+}
+
+.post-endpoints {
+  color: green;
+}
+
+.patch-endpoints {
+  color: orange;
+}
+
+.delete-endpoints {
+  color: red;
+}
