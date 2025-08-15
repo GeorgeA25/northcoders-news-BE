@@ -23,18 +23,42 @@ body {
 
 .get-endpoints {
   color: silver;
+  border: 0.125rem solid silver;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  background-color: #110101;
+  border-radius: 0.5rem;
+  box-shadow: 0.125rem 0.125rem 8px rgba(68, 20, 20, 0.1);
 }
 
 .post-endpoints {
   color: green;
+  border: 0.125rem solid green;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  background-color: #110101;
+  border-radius: 0.5rem;
+  box-shadow: 0.125rem 0.125rem 8px rgba(68, 20, 20, 0.1);
 }
 
 .patch-endpoints {
   color: orange;
+  border: 0.125rem solid orange;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  background-color: #110101;
+  border-radius: 0.5rem;
+  box-shadow: 0.125rem 0.125rem 8px rgba(68, 20, 20, 0.1);
 }
 
 .delete-endpoints {
   color: red;
+  border: 0.125rem solid red;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  background-color: #110101;
+  border-radius: 0.5rem;
+  box-shadow: 0.125rem 0.125rem 8px rgba(68, 20, 20, 0.1);
 }
 
 .table {
@@ -42,6 +66,7 @@ body {
   border-collapse: collapse;
   margin-top: 20px;
   font-family: Arial, sans-serif;
+  background-color: black;
 }
 
 .table th,
@@ -59,7 +84,7 @@ table td {
 .table td code {
   font-size: 14px;
   background-color: black;
-  padding: 2px 6px;
+  padding: 0.125rem 6px;
   border-radius: 4px;
 }
 
