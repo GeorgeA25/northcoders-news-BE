@@ -91,3 +91,57 @@ table td {
 .table td {
   white-space: pre-line;
 }
+
+.link-button-get {
+  padding: 0.0375rem 0.75rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid silver;
+  margin: 0 0.4rem;
+  background-color: black;
+  color: silver;
+}
+
+.link-button-post {
+  padding: 0.0375rem 0.75rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid green;
+  margin: 0 0.4rem;
+  background-color: black;
+  color: green;
+  text-decoration: none;
+}
+
+.link-button-patch {
+  padding: 0.0375rem 0.75rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid orange;
+  margin: 0 0.4rem;
+  background-color: black;
+  color: orange;
+  text-decoration: none;
+}
+
+.link-button-delete {
+  padding: 0.0375rem 0.75rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid red;
+  margin: 0 0.4rem;
+  background-color: black;
+  color: red;
+  text-decoration: none;
+}
+
+.back-to-top-button {
+  padding: 0.0375rem 0.75rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid blueviolet;
+  margin: 0 0.4rem;
+  background-color: black;
+  color: blueviolet;
+  text-decoration: none;
+}
